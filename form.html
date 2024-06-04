@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+      <!--====== Favicon ======-->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/admin/css/dropzone.min.css">
+
+      <!--====== Slick Slider ======-->
+      <link rel="stylesheet" href="assets/admin/css/line-awesome.min.css">
+      <!--====== select2 CSS ======-->
+      <link rel="stylesheet" href="assets/admin/css/select2.min.css">
+      <!--====== Nestable CSS ======-->
+      <link rel="stylesheet" href="assets/admin/css/nestable.css">
+      <!--====== Summernote CSS ======-->
+      <link rel="stylesheet" href="assets/admin/css/summernote-lite.min.css">
+      <!--====== datatable ======-->
+      <link href="assets/admin/css/jquery.dataTables.min.css" rel="stylesheet">
+  
+    <link rel="stylesheet" href="assets/css/toastr.min.css">
+    <link rel="stylesheet" href="assets/admin/css/toastr.min.css">
+    <link rel="stylesheet" href="assets/admin/css/app.css">
+     <link rel="stylesheet" href="assets/admin/css/app.min.css"> 
+
+      <!--====== ResponsiveCSS ======-->
+    <link rel="stylesheet" href="assets/admin/css/responsive.css"> 
+    <link rel="stylesheet" href="assets/admin/css/responsive.min.css">
+    <style>
+        .user-info-panel .badge {
+            font-size: 12px;
+            line-height: 16px;
+            font-weight: 500;
+            padding: 5px 10px;
+            margin-left: 20px;
+        }
+    </style>
+
+</head>
+<body>
+    <input type="hidden" class="base_url" value="{{ url('/') }}">
+
+  
+    <header class="navbar-dark-v1">
+        <div class="header-position">
+            <span class="sidebar-toggler">
+                <i class="las la-times"></i>
+            </span>
+            <div class="dashboard-logo d-flex justify-content-center align-items-center py-20">
+                <a class="logo" href="{{ route('admin.dashboard') }}">
+                    <img
+                        src="{{ setting('admin_logo') && @is_file_exists(setting('admin_logo')['original_image']) ? get_media(setting('admin_logo')['original_image']) : get_media('images/default/logo/logo-green-white.png') }}"
+                        alt="Logo">
+                </a>
+              
+                    <a class="logo-icon" href="{{ route('admin.dashboard') }}">
+                        <img
+                            src="{{ setting('admin_mini_logo') && @is_file_exists(setting('admin_mini_logo')['original_image']) ? get_media(setting('admin_mini_logo')['original_image']) : get_media('images/default/logo/logo-green-mini.png') }}"
+                            alt="Logo">
+                    </a>
+              
+            </div>
+            <nav class="side-nav">
+                <ul>
+                   
+                        <li class="{{ menuActivation(['admin/dashboard', 'admin'], 'active') }}">
+                            <a href="{{ route('admin.dashboard') }}" role="button" aria-expanded="false"
+                               aria-controls="dashboard">
+                                <i class="las la-tachometer-alt"></i>
+                                <span>'dashboard</span>
+                            </a>
+                        </li>
+                 
+    
+    
+                    <li class="{{ menuActivation(['admin/category/*', 'admin/category', 'admin/subjects/*', 'admin/subjects', 'admin/tags/*', 'admin/tag', 'admin/level/*', 'admin/level', 'admin/courses/*', 'admin/courses', 'admin/quizzes*', 'admin/certificates*'], 'active') }}">
+                        <a href="#course" class="dropdown-icon" data-bs-toggle="collapse" role="button"
+                           aria-expanded="{{ menuActivation(['admin/category/*', 'admin/category', 'admin/subjects/*', 'admin/subjects', 'admin/tag/*', 'admin/tag', 'admin/level/*', 'admin/level', 'admin/courses/*', 'admin/courses', 'admin/quizzes*', 'admin/certificates*'], 'true', 'false') }}"
+                           aria-controls="course">
+                            <i class="las la-book"></i>
+                            <span>course</span>
+                        </a>
+                    
+                    </li>
+    
+    
+                
+                        <li
+                            class="{{ menuActivation(['admin/students', 'admin/students/*', 'admin/students/create'], 'active') }}">
+                            <a href="{{ route('students.index') }}">
+                                <i class="las la-certificate"></i>
+                                <span>manage_students</span>
+                            </a>
+                        </li>
+            
+    
+    
+                    <li
+                        class="{{ menuActivation(['admin/instructors', 'admin/instructors/*', 'admin/instructors/create', 'admin/expertise', 'admin/expertise/*'], 'active') }}">
+                        <a href="#manageInstructor" class="dropdown-icon" data-bs-toggle="collapse" role="button"
+                           aria-expanded="{{ menuActivation(['admin/instructors', 'admin/instructors/*', 'admin/instructors/create', 'admin/expertise', 'admin/expertise/*'], 'true', 'false') }}"
+                           aria-controls="manageInstructor">
+                            <i class="las la-user-tie"></i>
+                            <span>'manage_instructors</span>
+                        </a>
+                        <ul class="sub-menu collapse {{ menuActivation(['admin/instructors', 'admin/instructors/*', 'admin/instructors/create', 'admin/expertise', 'admin/expertise/*'], 'show') }}"
+                            id="manageInstructor">
+    
+                                <li>
+                                    <a class="{{ menuActivation(['admin/instructors'], 'active') }}"
+                                       href="{{ route('instructors.index') }}">instructor_list</a>
+                                </li>
+                        </ul>
+                    </li>
+                    <li class="{{ menuActivation(['admin/organizations*'], 'active') }}">
+                        <a href="#manageOrganisation" class="dropdown-icon" data-bs-toggle="collapse" role="button"
+                           aria-expanded="{{ menuActivation(['admin/organizations*'], 'true', 'false') }}"
+                           aria-controls="manageOrganisation">
+                            <i class="las la-school"></i>
+                            <span>{{ __('manage_organisation') }}</span>
+                        </a>
+                        <ul class="sub-menu collapse {{ menuActivation(['admin/organizations*'], 'show') }}"
+                            id="manageOrganisation">
+    
+                            @can('organizations.index')
+                                <li>
+                                    <a class="{{ menuActivation('admin/organizations', 'active') }}"
+                                       href="{{ route('organizations.index') }}">{{ __('organisation_list') }}</a>
+                                </li>
+                            @endcan
+    
+                            @can('organizations.create')
+                                <li><a class="{{ menuActivation('admin/organizations/create', 'active') }}"
+                                       href="{{ route('organizations.create') }}">{{ __('add_organisation') }}</a></li>
+                            @endcan
+                        </ul>
+                    </li>
+                    <li
+                        class="{{ menuActivation(['admin/staffs', 'admin/staffs/create','admin/staffs/*/edit','admin/roles/*/edit', 'admin/roles/create', 'admin/roles'], 'active') }}">
+                        <a href="#staff" class="dropdown-icon" data-bs-toggle="collapse" role="button"
+                           aria-expanded="{{ menuActivation(['admin/staffs', 'admin/staffs/create','admin/staffs/*/edit','admin/roles/*/edit', 'admin/roles/create', 'admin/roles'], 'true', 'false') }}"
+                           aria-controls="staff">
+                            <i class="las la-user-friends"></i>
+                            <span>{{ __('staff') }}</span>
+                        </a>
+                        <ul class="sub-menu collapse {{ menuActivation(['admin/staffs', 'admin/roles/create', 'admin/staffs/create','admin/staffs/*/edit','admin/roles/*/edit', 'admin/roles'], 'show') }}"
+                            id="staff">
+    
+                            @can('staffs.index')
+                                <li><a class="{{ menuActivation('admin/staff*', 'active') }}"
+                                       href="{{ route('staffs.index') }}">{{ __('all_staff') }}</a></li>
+                            @endcan
+    
+                            @can('roles.index')
+                                <li><a class="{{ menuActivation('admin/roles*', 'active') }}"
+                                       href="{{ route('roles.index') }}">{{ __('roles') }}</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+    
+                  
+    
+                   
+                   
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-wrapper">
+
+    <nav class="navbar navbar-top navbar-expand-lg bg-body-tertiary py-20 bg-white sticky-top">
+        <div class="container-fluid g-5">
+            <span class="sidebar-toggler">
+                <span class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 6H3" stroke="#7E7F92" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        <path d="M21 12H3" stroke="#7E7F92" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        <path d="M18 18H3" stroke="#7E7F92" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                    </svg>
+                </span>
+            </span>
+            <a class="navbar-brand ms-auto d-none" href="{{ url('/') }}">
+                <img src="assets/img/logo/logo-mini.png" alt="Logo">
+            </a>
+    
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="las la-ellipsis-v"></span>
+            </button>
+            <div class="collapse navbar-collapse navbar-content px-lg-20 navbar-respons" id="navbarScroll">
+                <div class="navbar-left-content me-lg-auto d-flex align-items-center gap-20">
+    
+                    <ul class="dashboard-btn d-flex align-items-center gap-lg-20 gap-sm-2">
+                        <li>
+                            <a href="{{ route('cache.clear') }}"
+                                class="d-flex align-items-center button-default default-circle-btn gap-2">
+                                <i class="las la-hdd"></i>
+                                <span>clear_cache</span>
+                            </a>
+                        </li>
+                        <li class="dropdown add-new-page">
+                            <a href="#"
+                                class="dropdown-toggle d-flex align-items-center button-default default-circle-btn gap-2"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="las la-plus"></i>
+                                <span>add_new</span>
+                            </a>
+    
+                            <ul class="dropdown-menu simplebar">
+                              
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('courses.create') }}">
+                                            <i class="lab la-readme"></i>
+                                            <span>add_course</span>
+                                        </a>
+                                    </li>
+                           
+    
+                                
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('category.create') }}">
+                                            <i class="las la-circle"></i>
+                                            <span>add_category</span>
+                                        </a>
+                                    </li>
+                               
+    
+                             
+    
+    
+                               
+    
+    
+                              
+    
+                              
+    
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+    
+                <div class="navbar-right-content">
+                    <ul class="d-flex align-items-center gap-lg-4 gap-sm-2">
+                        <li class="visit-website">
+                            <a href="{{ route('home') }}" target="_blank">
+                                <i class="las la-globe-americas"></i>
+                                <span class="icon-hover">visit_website</span>
+                            </a>
+                        </li>
+    
+    
+                       
+    
+    
+    
+                        <li class="select-language dropdown pe-lg-20">
+                            
+                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                               active_locale 
+                            </a>
+                            <ul class="dropdown-menu popup-card">
+                              
+                                    <li><a class="dropdown-item" href="{{ setLanguageRedirect($language->locale) }}">
+                                            <img src="{{ static_asset($language->flag ?: 'admin/img/flag/united-kingdom.svg') }}"
+                                                alt="United Kingdom">language->name</a></li>
+                               
+                            </ul>
+                        </li>
+    
+                        <li class="dropdown pe-lg-20">
+                            <a href="#" class="dropdown-toggle d-flex gap-12" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <img src="{{ getFileLink('40x40', Auth::user()->images) }}" alt=""
+                                    class="user-avater">
+                                <span class="user-name">
+                                    last_name </span>
+                                <span class="active_status"></span>
+                            </a>
+                            <ul class="dropdown-menu popup-card">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('user.profile') }}">
+                                        <i class="lar la-user-circle"></i>
+                                        <span>manage_profile</span>
+                                    </a>
+                                </li>
+                                
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('user.password-change') }}">
+                                                <i class="las la-shield-alt"></i>
+                                                <span>change_password</span>
+                                            </a>
+                                        </li>
+                                  
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        
+                                        <a class="dropdown-item" href="javascript:void(0)"
+                                            onclick="event.preventDefault(); this.closest('form').submit();">
+                                            <i class="las la-sign-out-alt"></i>
+                                            <span>sign_out</span>
+                                        </a>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+     <div class="main-content-wrapper">
+
+        <section class="oftions">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="header-top d-flex justify-content-between align-items-center">
+                            <h3 class="section-title">{{__('countries') }}</h3>
+                            <div class="oftions-content-right mb-12">
+                                <a href="#" class="d-flex align-items-center btn sg-btn-primary gap-2"
+                                   data-bs-toggle="modal" data-bs-target="#country">
+                                    <i class="las la-plus"></i>
+                                    <span>{{__('add') }} {{__('country') }}</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="bg-white redious-border p-20 p-sm-30 pt-sm-30">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="default-list-table table-responsive yajra-dataTable">
+                                        {{ $dataTable->table() }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="oftions">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="section-title">{{__('create_blog') }}</h3>
+                        <div class="bg-white redious-border p-20 p-sm-30">
+                            <div class="row">
+                                <form action="{{ route('blogs.store') }}" class="form-validate form" method="POST" enctype="multipart/form-data">@csrf
+                                    <div class="col-12">
+                                        <div class="mb-4">
+                                            <label for="title" class="form-label">{{__('title') }} <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control rounded-2 ai_content_name" id="title"
+                                                   name="title"
+                                                   placeholder="{{ __('enter_title') }}">
+                                            <div class="nk-block-des text-danger">
+                                                <p class="title_error error">{{ $errors->first('title') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" class="is_modal" value="0"/>
+                                    <div class="col-12">
+                                        <div class="mb-4">
+                                            <label for="category" class="form-label">{{__('category') }} <span
+                                                    class="text-danger">*</span></label>
+                                            <select name="blog_category_id" class="with_search" id="category">
+                                                <option value="">{{ __('select_category') }}</option>
+                                                @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="nk-block-des text-danger">
+                                                <p class="blog_category_id_error error"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-4">
+                                            <label for="status" class="form-label">{{__('status') }}</label>
+                                            <select name="status" class="without_search" id="status">
+                                                <option value="published">{{ __('published') }}</option>
+                                                <option value="draft">{{ __('draft') }}</option>
+                                                <option value="pending">{{ __('pending') }}</option>
+                                            </select>
+                                            <div class="nk-block-des text-danger">
+                                                <p class="status_error error"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="d-flex gap-12 sandbox_mode_div mb-4">
+                                        <input type="hidden" name="is_featured" value="1">
+                                        <label class="form-label"
+                                               for="is_featured">{{ __('is_featured') }}</label>
+                                        <div class="setting-check">
+                                            <input type="checkbox" value="1" id="is_featured"
+                                                   class="sandbox_mode">
+                                            <label for="is_featured"></label>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-12">
+                                        <div class="mb-4">
+                                            <div class="d-flex justify-content-between">
+                                                <label for="category" class="form-label">{{__('short_description') }} <span
+                                                        class="text-danger">*</span> </label>
+                                                @include('backend.common.ai_btn',[
+                                                        'name' => 'ai_short_description',
+                                                        'length' => '200',
+                                                        'topic' => 'ai_content_name',
+                                                        'use_case' => 'short description for blog',
+                                                       ])
+                                            </div>
+                                            <textarea class="form-control ai_short_description" name="short_description"
+                                                      placeholder="{{ __('enter_short_description') }}"></textarea>
+                                            <div class="nk-block-des text-danger">
+                                                <p class="short_description_error error"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-12">
+                                        <div class="editor-wrapper mb-4">
+                                            <div class="d-flex justify-content-between">
+                                                <label for="description" class="form-label">{{__('description') }}</label>
+                                                @include('backend.common.ai_btn',[
+                                                        'name' => 'ai_long_description',
+                                                        'length' => '259',
+                                                        'topic' => 'ai_content_name',
+                                                         'long_description' => 1,
+                                                        'use_case' => 'long description for blog',
+                                                       ])
+                                            </div>
+                                            <textarea class="template-body ai_long_description" id="product-update-editor"
+                                                      name="description"></textarea>
+                                            <div class="nk-block-des text-danger">
+                                                <p class="description_error error">{{ $errors->first('content') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    @include('backend.common.media-input',[
+                                        'title' => __('image'),
+                                        'name'  => 'image_media_id',
+                                        'col'   => 'col-12 mb-4',
+                                        'size'  => '(406x240)',
+                                        'label' => __('image'),
+                                        'image' => old('image_media_id')
+                                    ])
+    
+                                    @include('components.meta-fields')
+    
+                                    <div class="d-flex justify-content-end align-items-center mt-30">
+                                        <button type="submit" class="btn sg-btn-primary">{{__('submit') }}</button>
+                                        @include('backend.common.loading-btn',['class' => 'btn sg-btn-primary'])
+                                    </div>
+                                </form>
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         </div>
+
+         
+         
+    </main>
+    
+</body>
+
+
+<script src="assets/admin/js/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+
+<script>
+    window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+    axios.defaults.withCredentials = true;
+</script>
+<!--====== Bootstrap & Popper JS ======-->
+<script src="assets/admin/js/bootstrap.bundle.min.js"></script>
+<script src="assets/admin/js/jquery.dataTables.min.js"></script>
+<script src="assets/admin/js/dataTables.responsive.min.js"></script>
+ <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script> 
+ <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.flash.min.js"></script> 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> 
+ <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script> 
+ <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script> 
+<!--====== NiceScroll ======-->
+<script src="assets/admin/js/jquery.nicescroll.min.js"></script>
+<!--====== Summernote JS ======-->
+<script src="assets/admin/js/summernote-lite.min.js"></script>
+<!--====== select2 JS ======-->
+<script src="assets/admin/js/select2.min.js"></script>
+<!--====== Chart JS ======-->
+<script src="assets/admin/js/chart.min.js"></script>
+<!--====== datatable ======-->
+
+
+<!--====== MainJS ======-->
+<script src="assets/admin/js/app.js?ver=1.0.0"></script>
+ <script src="assets/admin/js/app.min.js"></script>
+
+</html>

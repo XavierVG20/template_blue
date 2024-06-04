@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+      <!--====== Favicon ======-->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/admin/css/dropzone.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+      <!--====== Slick Slider ======-->
+    <link rel="stylesheet" href="assets/css/slick.min.css">
+
+      <!--====== Font Awesome ======-->
+    <link rel="stylesheet" href="assets/fonts/fontawesome/css/all.min.css">
+      <!--====== Box Icons ======-->
+    <link rel="stylesheet" href="assets/fonts/boxicons/css/boxicons.min.css">
+      <!--====== Spacing CSS ======-->
+    <link rel="stylesheet" href="assets/css/spacing.min.css">
+ 
+      <!--====== Main CSS ======-->
+    <link rel="stylesheet" href="assets/css/style.css">
+      <!--====== Responsive CSS ======-->
+    <link rel="stylesheet" href="assets/css/responsive.css">
+      <!--====== Color CSS ======-->
+    <link rel="stylesheet" href="assets/css/theme/blue.css">
+
+
+    
+
+</head>
+<body>
+
+    <section class="oftions">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-lg-12">
+
+                    <div class="section-title">
+                        <h4>{{__('overview')}}</h4>
+                    </div>
+
+                    <div class="bg-white redious-border mb-4 p-4">
+                        <div class="row">
+                            <div class="col-xxl-3 col-xl-6 col-md-6">
+                                <div class="bg-white redious-border mb-4 p-20 p-sm-30">
+                                    <div class="analytics clr-1">
+                                        <div class="analytics-icon">
+                                            <i class="las la-book-open"></i>
+                                        </div>
+
+                                        <div class="analytics-content">
+                                            <h4>{{ $new_course_count }}</h4>
+                                            <p>{{__('new_course')}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-xxl-3 col-xl-6 col-md-6">
+                                <div class="bg-white redious-border mb-4 p-20 p-sm-30">
+                                    <div class="analytics clr-3">
+                                        <div class="analytics-icon">
+                                            <i class="las la-clone"></i>
+                                        </div>
+
+                                        <div class="analytics-content">
+                                            <h4>{{ $total_student_count }}</h4>
+                                            <p>{{__('total_students')}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-6 col-md-6">
+                                <div class="bg-white redious-border mb-4 p-20 p-sm-30">
+
+                                    <div class="analytics clr-4">
+
+                                        <div class="analytics-icon">
+                                            <i class="las la-handshake"></i>
+                                        </div>
+
+                                        <div class="analytics-content">
+                                            <h4>{{ $total_enrolment_count }}</h4>
+                                            <p>{{__('total_enrolment')}}</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="bg-white redious-border mb-4 p-20 p-sm-30">
+                                    <div class="section-top">
+                                        <h4>{{__('course_statistic')}}</h4>
+
+                                        <div class="statistics-view dropdown pe-4">
+                                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"
+                                                aria-expanded="false" id="filterable_parent_item">
+                                                {{__('last_7_days')}}
+                                            </a>
+                                            <ul id="earning_report" class="dropdown-menu">
+
+                                                <li>
+                                                    <a class="dropdown-item __js_course_filterable_item" href="#"
+                                                        data-query="last_seven_days">
+                                                        {{__('last_7_days')}}
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="dropdown-item __js_course_filterable_item" href="#"
+                                                        data-query="last_fourteen_days">
+                                                        {{__('last_14_days')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item __js_course_filterable_item" href="#"
+                                                        data-query="last_month">
+                                                        {{__('last_month')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item __js_course_filterable_item" href="#"
+                                                        data-query="last_six_months">
+                                                        {{__('last_6_months')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item __js_course_filterable_item" href="#"
+                                                        data-query="last_twelve_months">
+                                                        {{__('last_12_months')}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- End Statistics Report -->
+
+                                    <div class="statistics-report-chart">
+                                        <canvas id="courseStatistics1"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="bg-white redious-border mb-4 p-20 p-sm-30">
+                                    <div class="section-top">
+                                        <h4>{{__('selling_report')}}</h4>
+
+                                        <div class="statistics-view dropdown pe-4">
+                                            <a id="selling_report" href="#" class="dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                {{__('last_7_days')}}
+                                            </a>
+                                            <ul class="dropdown-menu">
+
+                                                <li>
+                                                    <a class="dropdown-item __js_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_seven_days">
+                                                        {{__('last_7_days')}}
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="dropdown-item __js_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_fourteen_days">
+                                                        {{__('last_14_days')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item __js_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_month">
+                                                       {{__('last_month')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item __js_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_six_months">
+                                                        {{__('last_6_months')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item __js_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_twelve_months">
+                                                        {{__('last_12_months')}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- End Statistics Report -->
+
+                                    <div class="statistics-report-chart">
+                                        <canvas id="best_selling_statistic"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-lg-12 col-xxl-6">
+                                <div class="bg-white redious-border mb-4 mb-xxl-0 pt-20 p-30">
+                                    <div class="section-top mb-2">
+                                        <h4>{{__('best_selling_courses')}}</h4>
+
+                                        <div class="statistics-view dropdown pe-4">
+                                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"
+                                                id="best_selling_dropdown_item_container" aria-expanded="false">
+                                                {{__('last_7_days')}}
+                                            </a>
+                                            <ul id="earning_report" class="dropdown-menu">
+
+                                                <li>
+                                                    <a class="dropdown-item __js_best_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_seven_days">
+                                                        {{__('last_7_days')}}
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="dropdown-item __js_best_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_fourteen_days">
+                                                        {{__('last_14_days')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item __js_best_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_month">
+                                                        {{__('last_month')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item __js_best_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_six_months">
+                                                        {{__('last_6_months')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item __js_best_selling_filterable_item"
+                                                        href="javascript:void(0)" data-query="last_twelve_months">
+                                                        {{__('last_12_months')}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- End Best Selling Courses -->
+
+                                    <div id="best_selling_table_container">
+                                        @include('backend.organization.dashboard.best_selling_table')
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <input type="hidden" id="chart_data" value="{{ json_encode($charts) }}">
+
+    </section> <!-- End Oftions Section -->
+
+    
+</body>
+
+
+<script src="assets/admin/js/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+
+<script>
+    window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+    axios.defaults.withCredentials = true;
+</script>
+<!--====== jQuery ======-->
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+
+<!--====== Bootstrap ======-->
+<script src="assets/js/bootstrap.min.js"></script>
+
+
+<!--====== Main JS ======-->
+<script src="assets/js/main.js"></script>
+<!--====== App JS ======-->
+<script src="assets/js/app.js"></script>
+
+</html>

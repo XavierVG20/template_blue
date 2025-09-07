@@ -39,7 +39,6 @@
 
 </head>
 <body>
-    <input type="hidden" class="base_url" value="{{ url('/') }}">
 
   
     <header class="navbar-dark-v1">
@@ -50,13 +49,13 @@
             <div class="dashboard-logo d-flex justify-content-center align-items-center py-20">
                 <a class="logo" href="{{ route('admin.dashboard') }}">
                     <img
-                        src="{{ setting('admin_logo') && @is_file_exists(setting('admin_logo')['original_image']) ? get_media(setting('admin_logo')['original_image']) : get_media('images/default/logo/logo-green-white.png') }}"
+                        src="./assets/admin/img/logo/LOGO_PERSONAL.png"
                         alt="Logo">
                 </a>
               
                     <a class="logo-icon" href="{{ route('admin.dashboard') }}">
                         <img
-                            src="{{ setting('admin_mini_logo') && @is_file_exists(setting('admin_mini_logo')['original_image']) ? get_media(setting('admin_mini_logo')['original_image']) : get_media('images/default/logo/logo-green-mini.png') }}"
+                            src="./assets/admin/img/logo/LOGO_MIN.png"
                             alt="Logo">
                     </a>
               
@@ -68,7 +67,7 @@
                             <a href="{{ route('admin.dashboard') }}" role="button" aria-expanded="false"
                                aria-controls="dashboard">
                                 <i class="las la-tachometer-alt"></i>
-                                <span>'dashboard</span>
+                                <span>dashboard</span>
                             </a>
                         </li>
                  
@@ -102,7 +101,7 @@
                            aria-expanded="{{ menuActivation(['admin/instructors', 'admin/instructors/*', 'admin/instructors/create', 'admin/expertise', 'admin/expertise/*'], 'true', 'false') }}"
                            aria-controls="manageInstructor">
                             <i class="las la-user-tie"></i>
-                            <span>'manage_instructors</span>
+                            <span>manage_instructors</span>
                         </a>
                         <ul class="sub-menu collapse {{ menuActivation(['admin/instructors', 'admin/instructors/*', 'admin/instructors/create', 'admin/expertise', 'admin/expertise/*'], 'show') }}"
                             id="manageInstructor">
@@ -118,22 +117,16 @@
                            aria-expanded="{{ menuActivation(['admin/organizations*'], 'true', 'false') }}"
                            aria-controls="manageOrganisation">
                             <i class="las la-school"></i>
-                            <span>{{ __('manage_organisation') }}</span>
+                            <span>manage_organisation</span>
                         </a>
                         <ul class="sub-menu collapse {{ menuActivation(['admin/organizations*'], 'show') }}"
                             id="manageOrganisation">
     
-                            @can('organizations.index')
-                                <li>
-                                    <a class="{{ menuActivation('admin/organizations', 'active') }}"
-                                       href="{{ route('organizations.index') }}">{{ __('organisation_list') }}</a>
-                                </li>
-                            @endcan
+                          
     
-                            @can('organizations.create')
                                 <li><a class="{{ menuActivation('admin/organizations/create', 'active') }}"
-                                       href="{{ route('organizations.create') }}">{{ __('add_organisation') }}</a></li>
-                            @endcan
+                                       href="{{ route('organizations.create') }}">add_organisation</a></li>
+                        
                         </ul>
                     </li>
                     <li
@@ -142,19 +135,15 @@
                            aria-expanded="{{ menuActivation(['admin/staffs', 'admin/staffs/create','admin/staffs/*/edit','admin/roles/*/edit', 'admin/roles/create', 'admin/roles'], 'true', 'false') }}"
                            aria-controls="staff">
                             <i class="las la-user-friends"></i>
-                            <span>{{ __('staff') }}</span>
+                            <span>staff</span>
                         </a>
                         <ul class="sub-menu collapse {{ menuActivation(['admin/staffs', 'admin/roles/create', 'admin/staffs/create','admin/staffs/*/edit','admin/roles/*/edit', 'admin/roles'], 'show') }}"
                             id="staff">
     
-                            @can('staffs.index')
-                                <li><a class="{{ menuActivation('admin/staff*', 'active') }}"
-                                       href="{{ route('staffs.index') }}">{{ __('all_staff') }}</a></li>
-                            @endcan
-    
+                       
                             @can('roles.index')
                                 <li><a class="{{ menuActivation('admin/roles*', 'active') }}"
-                                       href="{{ route('roles.index') }}">{{ __('roles') }}</a>
+                                       href="{{ route('roles.index') }}">roles</a>
                                 </li>
                             @endcan
                         </ul>
@@ -185,7 +174,7 @@
                 </span>
             </span>
             <a class="navbar-brand ms-auto d-none" href="{{ url('/') }}">
-                <img src="assets/img/logo/logo-mini.png" alt="Logo">
+                <img src="./assets/admin/img/logo/LOGO_MIN.png" alt="Logo">
             </a>
     
             <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
@@ -229,15 +218,6 @@
                                         </a>
                                     </li>
                                
-    
-                             
-    
-    
-                               
-    
-    
-                              
-    
                               
     
                             </ul>
@@ -276,7 +256,7 @@
                         <li class="dropdown pe-lg-20">
                             <a href="#" class="dropdown-toggle d-flex gap-12" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                <img src="{{ getFileLink('40x40', Auth::user()->images) }}" alt=""
+                                <img src="./assets/admin/img/logo/LOGO_MIN.png" alt=""
                                     class="user-avater">
                                 <span class="user-name">
                                     last_name </span>
@@ -315,168 +295,155 @@
         </div>
     </nav>
      <div class="main-content-wrapper">
-
-        <section class="oftions">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="header-top d-flex justify-content-between align-items-center">
-                            <h3 class="section-title">{{__('countries') }}</h3>
-                            <div class="oftions-content-right mb-12">
-                                <a href="#" class="d-flex align-items-center btn sg-btn-primary gap-2"
-                                   data-bs-toggle="modal" data-bs-target="#country">
-                                    <i class="las la-plus"></i>
-                                    <span>{{__('add') }} {{__('country') }}</span>
-                                </a>
+ <!-- Update Profile -->
+ <section class="update-profile-section">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h3 class="section-title mb-0">Actualizar perfil</h3>
+                </div>
+                <div class="bg-white redious-border">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="admin-profile">
+                                <img src="./assets/admin/img/logo/LOGO_MIN.png" alt="User Profile img">
                             </div>
                         </div>
-                        <div class="bg-white redious-border p-20 p-sm-30 pt-sm-30">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="default-list-table table-responsive yajra-dataTable">
-                                        {{ $dataTable->table() }}
+                    </div>
+                    <form method="POST" action="{{ route('user.update') }}" enctype="multipart/form-data" class="form">
+                       
+                        <input type="hidden" name="id" value="{{$user->id}}">
+                        <div class="row p-20 p-md-30">
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label for="fullName" class="form-label">Nombres</label>
+                                    <input type="text" class="form-control rounded-2" id="fullName" placeholder="Nombres" name="_name" value="{{ old('first_name', $user->first_name) }}">
+                                    <div class="nk-block-des text-danger">
+                                        <p class="first_name_error error">error</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                           
+                            <!-- End Full Name -->
 
-        <section class="oftions">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h3 class="section-title">{{__('create_blog') }}</h3>
-                        <div class="bg-white redious-border p-20 p-sm-30">
-                            <div class="row">
-                                <form action="{{ route('blogs.store') }}" class="form-validate form" method="POST" enctype="multipart/form-data">@csrf
-                                    <div class="col-12">
-                                        <div class="mb-4">
-                                            <label for="title" class="form-label">{{__('title') }} <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="text" class="form-control rounded-2 ai_content_name" id="title"
-                                                   name="title"
-                                                   placeholder="{{ __('enter_title') }}">
-                                            <div class="nk-block-des text-danger">
-                                                <p class="title_error error">{{ $errors->first('title') }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" class="is_modal" value="0"/>
-                                    <div class="col-12">
-                                        <div class="mb-4">
-                                            <label for="category" class="form-label">{{__('category') }} <span
-                                                    class="text-danger">*</span></label>
-                                            <select name="blog_category_id" class="with_search" id="category">
-                                                <option value="">{{ __('select_category') }}</option>
-                                                @foreach($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
-                                                @endforeach
-                                            </select>
-                                            <div class="nk-block-des text-danger">
-                                                <p class="blog_category_id_error error"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="mb-4">
-                                            <label for="status" class="form-label">{{__('status') }}</label>
-                                            <select name="status" class="without_search" id="status">
-                                                <option value="published">{{ __('published') }}</option>
-                                                <option value="draft">{{ __('draft') }}</option>
-                                                <option value="pending">{{ __('pending') }}</option>
-                                            </select>
-                                            <div class="nk-block-des text-danger">
-                                                <p class="status_error error"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                    <div class="d-flex gap-12 sandbox_mode_div mb-4">
-                                        <input type="hidden" name="is_featured" value="1">
-                                        <label class="form-label"
-                                               for="is_featured">{{ __('is_featured') }}</label>
-                                        <div class="setting-check">
-                                            <input type="checkbox" value="1" id="is_featured"
-                                                   class="sandbox_mode">
-                                            <label for="is_featured"></label>
-                                        </div>
-                                    </div>
-    
-                                    <div class="col-12">
-                                        <div class="mb-4">
-                                            <div class="d-flex justify-content-between">
-                                                <label for="category" class="form-label">{{__('short_description') }} <span
-                                                        class="text-danger">*</span> </label>
-                                                @include('backend.common.ai_btn',[
-                                                        'name' => 'ai_short_description',
-                                                        'length' => '200',
-                                                        'topic' => 'ai_content_name',
-                                                        'use_case' => 'short description for blog',
-                                                       ])
-                                            </div>
-                                            <textarea class="form-control ai_short_description" name="short_description"
-                                                      placeholder="{{ __('enter_short_description') }}"></textarea>
-                                            <div class="nk-block-des text-danger">
-                                                <p class="short_description_error error"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                    <div class="col-12">
-                                        <div class="editor-wrapper mb-4">
-                                            <div class="d-flex justify-content-between">
-                                                <label for="description" class="form-label">{{__('description') }}</label>
-                                                @include('backend.common.ai_btn',[
-                                                        'name' => 'ai_long_description',
-                                                        'length' => '259',
-                                                        'topic' => 'ai_content_name',
-                                                         'long_description' => 1,
-                                                        'use_case' => 'long description for blog',
-                                                       ])
-                                            </div>
-                                            <textarea class="template-body ai_long_description" id="product-update-editor"
-                                                      name="description"></textarea>
-                                            <div class="nk-block-des text-danger">
-                                                <p class="description_error error">{{ $errors->first('content') }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                    @include('backend.common.media-input',[
-                                        'title' => __('image'),
-                                        'name'  => 'image_media_id',
-                                        'col'   => 'col-12 mb-4',
-                                        'size'  => '(406x240)',
-                                        'label' => __('image'),
-                                        'image' => old('image_media_id')
-                                    ])
-    
-                                    @include('components.meta-fields')
-    
-                                    <div class="d-flex justify-content-end align-items-center mt-30">
-                                        <button type="submit" class="btn sg-btn-primary">{{__('submit') }}</button>
-                                        @include('backend.common.loading-btn',['class' => 'btn sg-btn-primary'])
-                                    </div>
-                                </form>
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label for="emailAddress" class="form-label">E-mail</label>
+                                    <input type="email" class="form-control rounded-2" id="emailAddress" placeholder="email" name="email" value="{{ old('email', $user->email) }}">
+                                </div>
                             </div>
-    
+                            <!-- End Email Address -->
+
+                           
+
+                            <div class="col-lg-6 input_file_div">
+                                <div class="mb-3">
+                                    <label class="form-label mb-1">Cambiar foto de perfil</label>
+                                    <label for="profilePhoto" class="file-upload-text">
+                                        <p></p>
+                                        <span class="file-btn">{{__('choose_file') }}</span>
+                                    </label>
+                                    <input class="d-none file_picker" type="file" id="profilePhoto"
+                                           name="image">
+                                    <div class="nk-block-des text-danger">
+                                        <p class="image_error error"></p>
+                                    </div>
+                                </div>
+                                <div class="selected-files d-flex flex-wrap gap-20">
+                                    <div class="selected-files-item">
+                                        <img class="selected-img" src="{{ getFileLink('80x80',$user->images) }}"
+                                             alt="favicon">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Upload Profile Photo Input Field -->
+
+                            <div class="d-flex justify-content-start mt-30">
+                                <button type="submit" class="btn sg-btn-primary">Actualizar</button>
+                                
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
+<!-- End Update Profile Section -->
 
          </div>
-
-         
-         
     </main>
     
 </body>
+<script>
+    const courseStatisticData = JSON.parse(document.getElementById('courseStatisticData').value)
 
+    var courseStatistics1 = document.getElementById("courseStatistics1");
+    if (courseStatistics1) {
+        const statisticsBar = new Chart(courseStatistics1, {
+            type: 'bar',
+            data: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saterday"],
+                datasets: [{
+                        label: 'New Course',
+                        data: courseStatisticData.course_data,
+                        fill: false,
+                        borderColor: '#3F52E3',
+                        backgroundColor: '#3F52E3',
+                        borderWidth: 1,
+                        barThickness: 5,
+                        borderRadius: 5,
+                    },
+                    {
+                        label: 'Enrolment',
+                        data: courseStatisticData.enrolment_data,
+                        fill: false,
+                        borderColor: '#24D6A5',
+                        backgroundColor: '#24D6A5',
+                        borderWidth: 1,
+                        barThickness: 5,
+                        borderRadius: 5,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        border: {
+                            display: false
+                        },
+                        grid: {
+                            drawBorder: false,
+                            borderDash: [0, 0],
+                            lineWidth: 0
+                        }
+                    },
+                    y: {
+                        grid: {
+                            drawBorder: false,
+                            borderDash: [5, 5],
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        align: 'center',
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 7,
+                            boxHeight: 7,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    },
+                }
+            }
+        });
+    }
+</script>
 
 <script src="assets/admin/js/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
